@@ -1,0 +1,6 @@
+.env
+*.jpg
+*.png
+*.jpeg
+*.webm
+.idea
