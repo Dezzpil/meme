@@ -1,12 +1,32 @@
-import type React from "react";
+import React, { useCallback, useRef } from "react";
+import { ImgLoadBodyBFType } from "../../types/img.type.ts";
 
 const IndexPage: React.FC = () => {
-  return (
-    <form>
-      <input type="text" id="url" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-      <button>Сохранить</button>
-    </form>
-  );
-}
+	const urlRef = useRef<HTMLInputElement>(null);
+	const onSubmit = useCallback(async () => {
+		if (urlRef.current) {
+			alert(urlRef.current.value);
+
+			const data: ImgLoadBodyBFType = { url: urlRef.current.value };
+			alert(data);
+		}
+	}, []);
+
+	return (
+		<form
+			className='row row-cols-lg-auto g-3 align-items-center'
+			onSubmit={onSubmit}
+		>
+			<div className='col-12'>
+				<input type='text' className='form-control' id='url' ref={urlRef} />
+			</div>
+			<div className='col-12'>
+				<button className='btn btn-primary' type='submit'>
+					Загрузить
+				</button>
+			</div>
+		</form>
+	);
+};
 
 export default IndexPage;
