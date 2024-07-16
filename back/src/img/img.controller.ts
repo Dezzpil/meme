@@ -6,17 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
 } from '@nestjs/common';
 import { ImgService } from './img.service';
-import { CreateImgDto } from './dto/create-img.dto';
-import { UpdateImgDto } from './dto/update-img.dto';
+import { ZodValidationPipe } from '../zod.pipe';
+import { BFImgCreateDTO, BFImgCreateDTOType } from '../../types/img.type';
 
 @Controller('img')
 export class ImgController {
   constructor(private readonly imgService: ImgService) {}
 
   @Post()
-  create(@Body() createImgDto: CreateImgDto) {
+  @UsePipes(new ZodValidationPipe(BFImgCreateDTO))
+  create(@Body() createImgDto: BFImgCreateDTOType) {
     return this.imgService.create(createImgDto);
   }
 
@@ -31,7 +33,7 @@ export class ImgController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateImgDto: UpdateImgDto) {
+  update(@Param('id') id: string, @Body() updateImgDto: any) {
     return this.imgService.update(+id, updateImgDto);
   }
 

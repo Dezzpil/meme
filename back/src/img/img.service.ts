@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateImgDto } from './dto/create-img.dto';
-import { UpdateImgDto } from './dto/update-img.dto';
+import type { BFImgCreateDTOType } from '../../types/img.type';
 
 @Injectable()
 export class ImgService {
-  create(createImgDto: CreateImgDto) {
-    return 'This action adds a new img';
+  imgs: BFImgCreateDTOType[] = [];
+  create(createImgDto: BFImgCreateDTOType): number {
+    return this.imgs.push(createImgDto);
   }
 
   findAll() {
@@ -16,7 +16,7 @@ export class ImgService {
     return `This action returns a #${id} img`;
   }
 
-  update(id: number, updateImgDto: UpdateImgDto) {
+  update(id: number, updateImgDto: any) {
     return `This action updates a #${id} img`;
   }
 
