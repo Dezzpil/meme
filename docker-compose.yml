@@ -12,3 +12,16 @@ services:
       - ./data:/var/lib/postgresql/data
     ports:
       - 5437:5432
+
+  back:
+    image: node:lts-slim
+    restart: always
+    env_file:
+      - ./back/.env
+    volumes:
+      - ./back:/app
+      - ./bftypes:/app/types
+    ports:
+      - 3300:3300
+    working_dir: '/app'
+    entrypoint: 'npm run start:dev'
