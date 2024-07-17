@@ -25,3 +25,16 @@ services:
       - 3300:3300
     working_dir: '/app'
     entrypoint: 'npm run start:dev'
+
+  front:
+    image: node:lts-slim
+    restart: always
+    env_file:
+      - ./front/.env
+    volumes:
+      - ./front:/app
+      - ./bftypes:/app/types
+    ports:
+      - 3302:3302
+    working_dir: '/app'
+    entrypoint: 'npm run dev'
