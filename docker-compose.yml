@@ -14,22 +14,24 @@ services:
       - 5437:5432
 
   back:
-    image: node:lts-slim
-    restart: always
+    image: node:22-alpine
     env_file:
+      - .env
       - ./back/.env
     volumes:
       - ./back:/app
       - ./bftypes:/app/types
     ports:
-      - 3300:3300
+      - 3300:3000
+    expose:
+      - 3300
     working_dir: '/app'
     entrypoint: 'npm run start:dev'
 
   front:
     image: node:lts-slim
-    restart: always
     env_file:
+      - .env
       - ./front/.env
     volumes:
       - ./front:/app
@@ -37,4 +39,4 @@ services:
     ports:
       - 3302:3302
     working_dir: '/app'
-    entrypoint: 'npm run dev'
+    entrypoint: 'npm run dev -- --host'

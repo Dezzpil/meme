@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import type { BFImgCreateDTOType } from '../../types/img.type';
 
 @Injectable()
 export class ImgService {
+  private readonly logger = new Logger(ImgService.name);
   imgs: BFImgCreateDTOType[] = [];
   create(createImgDto: BFImgCreateDTOType): number {
     return this.imgs.push(createImgDto);
   }
 
   findAll() {
+    this.logger.log(`This action returns all img`);
     return `This action returns all img`;
   }
 
