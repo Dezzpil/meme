@@ -8,37 +8,37 @@ import {
   Delete,
   UsePipes,
 } from '@nestjs/common';
-import { ImgService } from './img.service';
+import { ImageService } from './image.service';
 import { ZodValidationPipe } from '../zod.pipe';
-import { BFImgCreateDTO, BFImgCreateDTOType } from '../../types/img.type';
+import { BFImgCreateDTO, BFImgCreateDTOType } from '../../types/image.type';
 
-@Controller('img')
-export class ImgController {
-  constructor(private readonly imgService: ImgService) {}
+@Controller('image')
+export class ImageController {
+  constructor(private readonly imgService: ImageService) {}
 
   @Post()
   @UsePipes(new ZodValidationPipe(BFImgCreateDTO))
-  create(@Body() createImgDto: BFImgCreateDTOType) {
+  async create(@Body() createImgDto: BFImgCreateDTOType) {
     return this.imgService.create(createImgDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.imgService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.imgService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateImgDto: any) {
+  async update(@Param('id') id: string, @Body() updateImgDto: any) {
     return this.imgService.update(+id, updateImgDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.imgService.remove(+id);
   }
 }
