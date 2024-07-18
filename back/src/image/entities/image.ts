@@ -17,7 +17,7 @@ export class Image {
   url: string;
 
   @Column({ type: 'json', update: false })
-  headers: Record<string, string>;
+  headers: Record<string, any>;
 
   @Column({ nullable: true, default: null, insert: false })
   downloadedAt: Date;
