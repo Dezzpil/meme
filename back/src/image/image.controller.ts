@@ -10,15 +10,15 @@ import {
 } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { ZodValidationPipe } from '../zod.pipe';
-import { BFImgCreateDTO, BFImgCreateDTOType } from '../../types/image.type';
+import { bfImageCreateDTO, bfImageCreateDTOType } from 'types/image.type';
 
 @Controller('image')
 export class ImageController {
   constructor(private readonly imgService: ImageService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(BFImgCreateDTO))
-  async create(@Body() createImgDto: BFImgCreateDTOType) {
+  @UsePipes(new ZodValidationPipe(bfImageCreateDTO))
+  async create(@Body() createImgDto: bfImageCreateDTOType) {
     return this.imgService.create(createImgDto);
   }
 

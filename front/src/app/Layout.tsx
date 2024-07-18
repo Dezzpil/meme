@@ -1,11 +1,7 @@
-import React, { ReactNode } from "react";
 import TopMenu from "./TopMenu.tsx";
+import { Outlet } from "react-router-dom";
 
-interface Props {
-	children: ReactNode;
-}
-
-const Layout: React.FC<Props> = ({ children }) => {
+export default function Layout() {
 	return (
 		<div className='container-xxl'>
 			<nav className='navbar bg-body-tertiary  mb-4'>
@@ -16,9 +12,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 					<TopMenu />
 				</div>
 			</nav>
-			{children}
+			<Outlet />
 		</div>
 	);
-};
-
-export default Layout;
+}

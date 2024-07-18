@@ -1,8 +1,11 @@
-import React from "react";
 import IndexForm from "./IndexForm.tsx";
+import { useNavigate } from "react-router-dom";
+import { bfImageDTOType } from "../../../types/image.type.ts";
 
-const IndexPage: React.FC = () => {
-	return <IndexForm />;
-};
-
-export default IndexPage;
+export default function IndexPage() {
+	const navigate = useNavigate();
+	const onSuccess = (image: bfImageDTOType) => {
+		navigate(`/image/${image.id}`);
+	};
+	return <IndexForm onSuccess={onSuccess} />;
+}

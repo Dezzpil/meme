@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import type { BFImgCreateDTOType } from '../../types/image.type';
 import { Repository } from 'typeorm';
 import { Image } from './entities/image';
-import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
+import { bfImageCreateDTOType } from '../../types/image.type';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ImageService {
   constructor(@InjectRepository(Image) private imagesRepo: Repository<Image>) {}
 
-  async create(createImgDto: BFImgCreateDTOType): Promise<Image> {
+  async create(createImgDto: bfImageCreateDTOType): Promise<Image> {
     const response = await axios.head(createImgDto.url, {
       signal: AbortSignal.timeout(1000),
     });
@@ -23,8 +23,8 @@ export class ImageService {
     return await this.imagesRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} img`;
+  async findOne(id: number) {
+    return await this.imagesRepo.findOneOrFail({ where: { id } });
   }
 
   update(id: number, updateImgDto: any) {

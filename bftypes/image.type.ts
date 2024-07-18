@@ -1,7 +1,14 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-export const BFImgCreateDTO = z.object({
-  url: z.string().url(),
+export type bfImageDTOType = {
+	id: number;
+	url: string;
+	createdAt: Date;
+	headers: Record<string, any>;
+};
+
+export const bfImageCreateDTO = z.object({
+	url: z.string().url(),
 });
 
-export type BFImgCreateDTOType = z.infer<typeof BFImgCreateDTO>;
+export type bfImageCreateDTOType = z.infer<typeof bfImageCreateDTO>;

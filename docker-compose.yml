@@ -29,7 +29,7 @@ services:
     entrypoint: 'npm run start:dev'
 
   front:
-    image: node:lts-slim
+    image: node:22-alpine
     env_file:
       - .env
       - ./front/.env

@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
 import { api } from "../tools/api.ts";
-import { BFImgCreateDTO, BFImgCreateDTOType } from "../../../types/img.type.ts";
+import {
+	bfImageCreateDTO,
+	bfImageCreateDTOType,
+	bfImageDTOType,
+} from "../../../types/image.type.ts";
 
-const IndexForm: React.FC = () => {
+interface IndexFormProps {
+	onSuccess: (image: bfImageDTOType) => void;
+}
+
+export default function IndexForm({ onSuccess }: IndexFormProps) {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<BFImgCreateDTOType>({
-		resolver: zodResolver(BFImgCreateDTO),
+	} = useForm<bfImageCreateDTOType>({
+		resolver: zodResolver(bfImageCreateDTO),
 	});
 	const [error, setError] = useState<string | null>();
 	const [submitting, setSubmitting] = useState<boolean>(false);
@@ -19,8 +27,9 @@ const IndexForm: React.FC = () => {
 		setError(null);
 		setSubmitting(true);
 		try {
-			const response = await api.post<number>("/img", data);
+			const response = await api.post<bfImageDTOType>("/image", data);
 			console.log(response.data);
+			onSuccess(response.data);
 		} catch (e) {
 			setError(e instanceof Error ? e.message : String(e));
 		}
@@ -29,11 +38,8 @@ const IndexForm: React.FC = () => {
 
 	return (
 		<>
-			<form
-				className='row row-cols-lg-auto g-3 align-items-top'
-				onSubmit={onSubmit}
-			>
-				<div className='col-12'>
+			<form className='row g-3 align-items-top' onSubmit={onSubmit}>
+				<div className='col'>
 					<input
 						type='text'
 						className={classNames("form-control", { "is-invalid": errors.url })}
@@ -56,6 +62,4 @@ const IndexForm: React.FC = () => {
 			{error && <div className='alert alert-error'>{error}</div>}
 		</>
 	);
-};
-
-export default IndexForm;
+}

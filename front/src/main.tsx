@@ -3,13 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import IndexPage from "./app/index/IndexPage.tsx";
-import Layout from "./app/Layout";
+import { BrowserRouter } from "react-router-dom";
+import App from "./app/App.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<Layout>
-			<IndexPage />
-		</Layout>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
 	</React.StrictMode>,
 );
