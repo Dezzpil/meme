@@ -1,0 +1,7 @@
+.idea
+node_modules
+*.png
+*.webp
+*.jpg
+*.jpeg
+*.gif
