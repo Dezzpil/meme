@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ImageModule } from './image/image.module';
 import configFactory from './config/config';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Image } from './image/entities/image';
 
 const config = configFactory();
 
@@ -21,13 +18,10 @@ console.log(config);
       username: config.database.username,
       password: config.database.password,
       database: config.database.database,
-      // entities: [ImgEntity],
       autoLoadEntities: true,
       synchronize: true,
     }),
     ImageModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

@@ -1,22 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Image } from './entities/image';
 import axios from 'axios';
-import { bfImageCreateDTOType } from '../../types/image.type';
+import {
+  bfImageCreateDTOType,
+  bfImageMessageDTODownloadType,
+} from '../../types/image.type';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 
 @Injectable()
 export class ImageService {
-  constructor(@InjectRepository(Image) private imagesRepo: Repository<Image>) {}
+  constructor(
+    @InjectRepository(Image) private readonly imagesRepo: Repository<Image>,
+    @Inject(AmqpConnection) private readonly amqpConnection: AmqpConnection,
+  ) {}
 
   async create(createImgDto: bfImageCreateDTOType): Promise<Image> {
     const response = await axios.head(createImgDto.url, {
-      signal: AbortSignal.timeout(1000),
+      signal: AbortSignal.timeout(2000),
     });
-    return await this.imagesRepo.save({
+    const image = await this.imagesRepo.save({
       url: createImgDto.url,
       headers: response.headers,
     });
+    // TODO вынести в константу exchange
+    await this.amqpConnection.publish<bfImageMessageDTODownloadType>(
+      'amq.direct',
+      'download',
+      { id: image.id, url: image.url },
+    );
+    return image;
   }
 
   async findAll(): Promise<Image[]> {
